@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FitLife Fitness</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+}
+
+body{
+background:#111;
+color:white;
+}
+
+/* NAV */
+
+header{
+background:#000;
+padding:20px 10%;
+display:flex;
+justify-content:space-between;
+}
+
+.logo{
+color:#00ffae;
+font-size:24px;
+font-weight:bold;
+}
+
+nav a{
+color:white;
+margin-left:20px;
+text-decoration:none;
+}
+
+nav a:hover{
+color:#00ffae;
+}
+
+/* HERO */
+
+.hero{
+height:80vh;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+background:linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.6)),
+url("https://images.unsplash.com/photo-1554284126-aa88f22d8b74");
+background-size:cover;
+}
+
+.hero h1{
+font-size:48px;
+}
+
+/* SECTIONS */
+
+section{
+padding:70px 10%;
+}
+
+.section-title{
+text-align:center;
+margin-bottom:40px;
+color:#00ffae;
+}
+
+/* CARDS */
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:25px;
+}
+
+.card{
+background:#1a1a1a;
+padding:25px;
+border-radius:10px;
+text-align:center;
+}
+
+/* BMI */
+
+.box{
+max-width:400px;
+margin:auto;
+background:#1a1a1a;
+padding:25px;
+border-radius:10px;
+text-align:center;
+}
+
+input,select{
+width:100%;
+padding:10px;
+margin:10px 0;
+border:none;
+border-radius:5px;
+}
+
+button{
+background:#00ffae;
+border:none;
+padding:12px;
+font-weight:bold;
+cursor:pointer;
+width:100%;
+}
+
+.result{
+margin-top:15px;
+font-size:18px;
+}
+
+/* AI BOT */
+
+.chatbox{
+max-width:500px;
+margin:auto;
+background:#1a1a1a;
+padding:20px;
+border-radius:10px;
+}
+
+.chat{
+height:200px;
+overflow-y:auto;
+background:#000;
+padding:10px;
+margin-bottom:10px;
+border-radius:5px;
+font-size:14px;
+}
+
+.user{
+color:#00ffae;
+}
+
+.bot{
+color:#fff;
+}
+
+/* FOOTER */
+
+footer{
+background:#000;
+text-align:center;
+padding:20px;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">FitLife</div>
+
+<nav>
+<a href="#">Home</a>
+<a href="#bmi">BMI</a>
+<a href="#exercise">Exercise</a>
+<a href="#suggest">Suggestions</a>
+<a href="#bot">AI Coach</a>
+</nav>
+
+</header>
+
+<section class="hero">
+
+<div>
+<h1>Train Smart. Get Strong.</h1>
+<p>Your digital fitness assistant</p>
+</div>
+
+</section>
+
+<section id="bmi">
+
+<h2 class="section-title">BMI Checker</h2>
+
+<div class="box">
+
+<input type="number" id="height" placeholder="Height (cm)">
+<input type="number" id="weight" placeholder="Weight (kg)">
+
+<button onclick="calculateBMI()">Calculate BMI</button>
+
+<div class="result" id="bmiResult"></div>
+
+</div>
+
+</section>
+
+<section id="exercise">
+
+<h2 class="section-title">Exercise Generator</h2>
+
+<div class="box">
+
+<div id="exerciseBox">Click generate to get an exercise</div>
+
+<br>
+
+<button onclick="generateExercise()">Generate Exercise</button>
+
+</div>
+
+</section>
+
+<section id="suggest">
+
+<h2 class="section-title">Workout Suggestions</h2>
+
+<div class="box">
+
+<select id="goal">
+<option value="">Select Goal</option>
+<option value="lose">Lose Weight</option>
+<option value="muscle">Build Muscle</option>
+<option value="fit">Stay Fit</option>
+</select>
+
+<button onclick="suggestWorkout()">Get Suggestion</button>
+
+<div class="result" id="suggestResult"></div>
+
+</div>
+
+</section>
+
+<section id="bot">
+
+<h2 class="section-title">AI Fitness Coach</h2>
+
+<div class="chatbox">
+
+<div class="chat" id="chat"></div>
+
+<input type="text" id="userInput" placeholder="Ask the AI something...">
+
+<button onclick="sendMessage()">Send</button>
+
+</div>
+
+</section>
+
+<footer>
+
+<p>© 2026 FitLife Fitness</p>
+
+</footer>
+
+<script>
+
+/* BMI */
+
+function calculateBMI(){
+
+let h=document.getElementById("height").value/100
+let w=document.getElementById("weight").value
+
+let bmi=(w/(h*h)).toFixed(1)
+
+let status=""
+
+if(bmi<18.5) status="Underweight"
+else if(bmi<25) status="Normal"
+else if(bmi<30) status="Overweight"
+else status="Obese"
+
+document.getElementById("bmiResult").innerHTML=
+"BMI: "+bmi+" ("+status+")"
+
+}
+
+/* EXERCISE GENERATOR */
+
+const exercises=[
+"Push Ups",
+"Squats",
+"Burpees",
+"Jump Rope",
+"Lunges",
+"Plank",
+"Mountain Climbers",
+"Sit Ups"
+]
+
+function generateExercise(){
+
+let r=Math.floor(Math.random()*exercises.length)
+
+document.getElementById("exerciseBox").innerHTML=exercises[r]
+
+}
+
+/* SUGGESTION */
+
+function suggestWorkout(){
+
+let goal=document.getElementById("goal").value
+
+let text=""
+
+if(goal==="lose")
+text="Do HIIT, running, cycling and jump rope 4–5 days per week."
+
+if(goal==="muscle")
+text="Focus on weight lifting: squats, deadlifts, bench press."
+
+if(goal==="fit")
+text="Mix cardio, strength training and flexibility workouts."
+
+document.getElementById("suggestResult").innerHTML=text
+
+}
+
+/* SIMPLE AI BOT */
+
+function sendMessage(){
+
+let input=document.getElementById("userInput").value
+let chat=document.getElementById("chat")
+
+chat.innerHTML+=`<div class="user">You: ${input}</div>`
+
+let reply=""
+
+input=input.toLowerCase()
+
+if(input.includes("lose weight"))
+reply="Try cardio exercises and maintain a calorie deficit."
+
+else if(input.includes("build muscle"))
+reply="Focus on progressive overload and high-protein meals."
+
+else if(input.includes("exercise"))
+reply="Push ups, squats and planks are great beginner exercises."
+
+else if(input.includes("tite"))
+reply="kahit obus mo to di ako papalag."
+
+else
+reply="Stay consistent with workouts and maintain healthy habits."
+
+chat.innerHTML+=`<div class="bot">Coach: ${reply}</div>`
+
+document.getElementById("userInput").value=""
+
+chat.scrollTop=chat.scrollHeight
+
+}
+
+</script>
+
+</body>
+</html>
